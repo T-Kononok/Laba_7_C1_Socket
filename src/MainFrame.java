@@ -36,6 +36,7 @@ public class MainFrame extends JFrame {
         setLocation((kit.getScreenSize().width - getWidth()) / 2,
                 (kit.getScreenSize().height - getHeight()) / 2);
 // Текстовая область для отображения полученных сообщений
+
         textAreaIncoming = new JTextArea(INCOMING_AREA_DEFAULT_ROWS, 0);
         textAreaIncoming.setEditable(false);
 // Контейнер, обеспечивающий прокрутку текстовой области
