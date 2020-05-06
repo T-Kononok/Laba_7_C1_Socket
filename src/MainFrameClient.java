@@ -7,10 +7,10 @@ public class MainFrameClient extends JFrame {
     private static final int FRAME_MINIMUM_WIDTH = 500;
     private static final int FRAME_MINIMUM_HEIGHT = 500;
 
-    private CardLayout cards = new CardLayout();
-    private JPanel cardsPanel = new JPanel(cards);
-    private int a;
-
+    private CardLayout cardsUp = new CardLayout();
+    private CardLayout cardsDown = new CardLayout();
+    private JPanel cardsUpPanel = new JPanel(cardsUp);
+    private JPanel cardsDownPanel = new JPanel(cardsDown);
 
     private MainFrameClient(){
 
@@ -20,29 +20,34 @@ public class MainFrameClient extends JFrame {
         setLocation((kit.getScreenSize().width - getWidth()) / 2,
                     (kit.getScreenSize().height - getHeight()) / 2);
 
-        JPanel card1 = new JPanel();
-        card1.setBackground(Color.RED);
-        JPanel card2 = new JPanel();
-        card2.setBackground(Color.GRAY);
-        JPanel card3 = new JPanel();
-        card3.setBackground(Color.GREEN);
+//        Up
+        JPanel loginUpPanel = new JPanel();
+        cardsUpPanel.add(loginUpPanel, "login");
+        JPanel searchUpPanel = new JPanel();
+        cardsUpPanel.add(searchUpPanel, "search");
+        JPanel chatUpPanel = new JPanel();
+        cardsUpPanel.add(chatUpPanel, "chat");
 
-        cardsPanel.add(card1, "1");
-        cardsPanel.add(card2, "2");
-        cardsPanel.add(card3, "3");
+//        Down
+        JPanel loginDowmPanel = new JPanel();
+        cardsDownPanel.add(loginDowmPanel, "login");
+        JPanel settingDowmPanel = new JPanel();
+        cardsDownPanel.add(settingDowmPanel, "setting");
+        JPanel searchDownPanel = new JPanel();
+        cardsDownPanel.add(searchDownPanel, "search");
+        JPanel messagesDownPanel = new JPanel();
+        cardsDownPanel.add(messagesDownPanel, "messages");
+        JPanel chatDownPanel = new JPanel();
+        cardsDownPanel.add(chatDownPanel, "chat");
 
-        a = 1;
-        final JButton button = new JButton("Поменять");
-        button.addActionListener(e -> {
-            cards.show(cardsPanel, "" + a);
-            a++;
-            if (a > 3) {
-                a = 1;
-            }
-        });
+//        JPanel menuPanel = new JPanel();
+//        JButton settingButton = new JButton(new ImageIcon("D:/Джава/Laba_7_C1_Socket/settingIm"));
+//        //settingButton.addActionListener(e -> sendMessage());
+//        JButton settingButton = new JButton(new ImageIcon("D:/Джава/Laba_7_C1_Socket/settingIm"));
+//        //settingButton.addActionListener(e -> sendMessage());
 
-        getContentPane().add(cardsPanel, BorderLayout.CENTER);
-        getContentPane().add(button, BorderLayout.PAGE_START);
+        getContentPane().add(cardsUpPanel, BorderLayout.SOUTH);
+        getContentPane().add(cardsDownPanel, BorderLayout.NORTH);
     }
 
     public static void main(String[] args) {
