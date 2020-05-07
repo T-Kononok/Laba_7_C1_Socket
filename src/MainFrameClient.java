@@ -1,9 +1,7 @@
 import javax.swing.*;
 import javax.swing.plaf.BorderUIResource;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
+import java.awt.event.*;
 
 public class MainFrameClient extends JFrame {
 
@@ -55,13 +53,19 @@ public class MainFrameClient extends JFrame {
         im.setVisible(false);
         profileButton.add(im);
         profileButton.setBorderPainted(false);
+        profileButton.setFocusPainted(false);
         profileButton.setBackground(BLUEVK);
         profileButton.addMouseListener(new ButtonMouseListener());
         menuPanel.add(profileButton);
+        profileButton.setVisible(false);
         
 //        Up
         JPanel loginUpPanel = new JPanel();
+        loginUpPanel.setBackground(WHITEVK);
         cardsUpPanel.add(loginUpPanel, "login");
+
+        JPanel profileUpPanel = new JPanel();
+        cardsUpPanel.add(profileUpPanel, "profile");
 
         JPanel searchUpPanel = new JPanel();
         cardsUpPanel.add(searchUpPanel, "search");
@@ -72,6 +76,24 @@ public class MainFrameClient extends JFrame {
 //        Down
         JPanel loginDownPanel = new JPanel();
         loginDownPanel.setBackground(WHITEVK);
+        JTextField kostylNameLoginField = new JTextField("",1);
+        kostylNameLoginField.setBorder(BorderFactory.createEmptyBorder());
+        kostylNameLoginField.setBackground(WHITEVK);
+        kostylNameLoginField.setCaretColor(WHITEVK);
+        Box loginVBox = Box.createVerticalBox();
+        JLabel vhodLabel = new JLabel("Вход пародии ВКонтакте");
+        vhodLabel.setFont(new Font("Tahoma",Font.PLAIN,20));
+        JTextField nameLoginField = new JTextField("Имя",25);
+        nameLoginField.addFocusListener(new TextFieldFocusAdapter("Имя"));
+        JTextField surnameLoginField = new JTextField("Фамилия", 25);
+        surnameLoginField.addFocusListener(new TextFieldFocusAdapter("Фамилия"));
+        JButton vhodButton = new JButton("Войти");
+        loginVBox.add(kostylNameLoginField);
+        loginVBox.add(vhodLabel);
+        loginVBox.add(nameLoginField);
+        loginVBox.add(surnameLoginField);
+        loginVBox.add(vhodButton);
+        loginDownPanel.add(loginVBox);
         cardsDownPanel.add(loginDownPanel, "login");
 
         JPanel profileDownPanel = new JPanel();
@@ -89,6 +111,7 @@ public class MainFrameClient extends JFrame {
         cardsUp.show(cardsUpPanel,"login");
         cardsDown.show(cardsDownPanel,"login");
 
+
 //        JPanel menuPanel = new JPanel();
 //        JButton profileButton = new JButton(new ImageIcon("D:/Джава/Laba_7_C1_Socket/profileIm"));
 //        //profileButton.addActionListener(e -> sendMessage());
@@ -98,6 +121,28 @@ public class MainFrameClient extends JFrame {
         getContentPane().add(menuPanel, BorderLayout.NORTH);
         getContentPane().add(cardsUpPanel, BorderLayout.CENTER);
         getContentPane().add(cardsDownPanel, BorderLayout.SOUTH);
+
+    }
+
+    public static class TextFieldFocusAdapter extends FocusAdapter {
+        private String text;
+
+        TextFieldFocusAdapter(String text) {
+            this.text = text;
+        }
+
+        public void focusGained(FocusEvent e) {
+            JTextField field = (JTextField) e.getSource();
+            if (field.getText().equals(text)) {
+                field.setText("");
+            }
+        }
+        public void focusLost(FocusEvent e) {
+            JTextField field = (JTextField) e.getSource();
+            if (field.getText().isEmpty()) {
+                field.setText(text);
+            }
+        }
     }
 
     public static class ButtonMouseListener implements MouseListener {
