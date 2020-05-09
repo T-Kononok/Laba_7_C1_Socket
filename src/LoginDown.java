@@ -61,13 +61,11 @@ class LoginDown {
                         getScaledInstance(17, 17, Image.SCALE_DEFAULT);
                 regCheckBox.setIcon(new ImageIcon(checkBoxIm2));
                 ipFormatTextField.setEnabled(true);
-                passwordField.setEnabled(true);
             } else {
                 Image checkBoxIm2 = new ImageIcon("D:/Джава/Laba_7_C1_Socket/checkBoxIm.png").getImage().
                         getScaledInstance(17, 17, Image.SCALE_DEFAULT);
                 regCheckBox.setIcon(new ImageIcon(checkBoxIm2));
                 ipFormatTextField.setEnabled(false);
-                passwordField.setEnabled(false);
             }
         });
         JLabel regLabel = new JLabel("Регистрация");
@@ -85,7 +83,6 @@ class LoginDown {
                 if (!regCheckBox.isSelected()) {
                     switch (user.checkInData()) {
                         case ("Вход"):
-                            System.out.println("Вход");
                             mainFrameClient.setUser(user);
                             mainFrameClient.setCards("messages");
                             break;

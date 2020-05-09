@@ -30,7 +30,6 @@ class MessagesDown {
                     String val = messagesList.getSelectedValue();
                     String[] subStr = val.split("_");
                     mainFrameClient.setCardChat(subStr[0]);
-                    System.out.println(subStr[0]);
                 }
             }
         });

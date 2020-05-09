@@ -77,6 +77,11 @@ public class MainFrameClient extends JFrame {
         chatDown.setUser(user);
         chatDown.setInterlocutor(name);
         chatUp.setInterlocutor(name);
+        try {
+            chatDown.readOneChatInData();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     void setUser(User user) {
