@@ -15,7 +15,8 @@ public class MainFrameClient extends JFrame {
     private CardLayout cardsDown = new CardLayout();
     private JPanel cardsUpPanel = new JPanel(cardsUp);
     private JPanel cardsDownPanel = new JPanel(cardsDown);
-    private MenuVK menuVK = new MenuVK(new User());
+    private User user = new User();
+    private MenuVK menuVK = new MenuVK(user);
 
     private MainFrameClient(){
 
@@ -37,7 +38,7 @@ public class MainFrameClient extends JFrame {
         cardsUpPanel.add(chatUp.getChatUpPanel(), "chat");
 
 //        Down
-        LoginDown loginDown = new LoginDown();
+        LoginDown loginDown = new LoginDown(this);
         cardsDownPanel.add(loginDown.getLoginFonBox(), "login");
 
         MessagesDown messagesDown = new MessagesDown();
@@ -46,15 +47,33 @@ public class MainFrameClient extends JFrame {
         ChatDown chatDown = new ChatDown();
         cardsDownPanel.add(chatDown.getChatDownPanel(), "chat");
 
-        menuVK.setAlogin();
-        cardsUp.show(cardsUpPanel,"messages");
-        cardsDown.show(cardsDownPanel,"messages");
+        setCardsUp("login");
+        setCardsDown("login");
+        menuVK.setLogin();
         Box contentBoxV = Box.createVerticalBox();
         contentBoxV.add(menuVK.getMenuPanel());
         contentBoxV.add(cardsUpPanel);
         contentBoxV.add(cardsDownPanel);
         getContentPane().add(contentBoxV, BorderLayout.CENTER);
 
+    }
+
+    void setCardsUp(String card) {
+        cardsUp.show(cardsUpPanel,card);
+        menuVK.setUser(user);
+        menuVK.setAlogin();
+    }
+    void setCardsDown(String card) {
+        cardsDown.show(cardsDownPanel,card);
+        menuVK.setAlogin();
+    }
+
+    void setUser(User user) {
+        this.user = user;
+    }
+
+    User getUser() {
+        return user;
     }
 
     public static void main(String[] args) {

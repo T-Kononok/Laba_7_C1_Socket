@@ -1,9 +1,9 @@
 import javax.swing.*;
 import javax.swing.text.MaskFormatter;
 import java.awt.*;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.event.ItemEvent;
+import java.awt.event.*;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.text.ParseException;
 
 class LoginDown {
@@ -11,15 +11,17 @@ class LoginDown {
     private static final Color WHITEVK = new Color(237,238,240);
     private static final Color GREYVK = new Color(153,145,146);
 
+    private User user = new User();
     private Box fon = Box.createVerticalBox();
 
-    LoginDown(){
+    LoginDown(MainFrameClient mainFrameClient){
         JPanel loginDownPanel = new JPanel();
         loginDownPanel.setBackground(Color.WHITE);
         JTextField kostylNameLoginField = new JTextField("",1);
         kostylNameLoginField.setBorder(BorderFactory.createEmptyBorder());
         kostylNameLoginField.setBackground(Color.WHITE);
         kostylNameLoginField.setCaretColor(Color.WHITE);
+        kostylNameLoginField.setForeground(Color.WHITE);
         JLabel vhodLabel = new JLabel("Вход пародии ВКонтакте");
         vhodLabel.setFont(new Font("Tahoma",Font.PLAIN,20));
         JTextField nameLoginField = new JTextField("Имя",10);
@@ -44,6 +46,7 @@ class LoginDown {
             e.printStackTrace();
         }
         JFormattedTextField ipFormatTextField = new JFormattedTextField(ipFormatter);
+        ipFormatTextField.addFocusListener(new FormatFieldFocusAdapter());
         ipFormatTextField.setFont(new Font("Tahoma",Font.PLAIN,12));
         ipFormatTextField.setColumns(13);
         ipFormatTextField.setEnabled(false);
@@ -74,6 +77,48 @@ class LoginDown {
         vhodButton.setBorder(BorderFactory.createEmptyBorder());
         vhodButton.setRolloverIcon(new ImageIcon(new ImageIcon("D:/Джава/Laba_7_C1_Socket/buttonImSelect.png").getImage().
                 getScaledInstance(110, 40, Image.SCALE_DEFAULT)));
+        vhodButton.addActionListener( actionEvent -> {
+            user.setName(nameLoginField.getText());
+            user.setSurname(surnameLoginField.getText());
+            user.setPassword(passwordField.getPassword());
+            try {
+                if (!regCheckBox.isSelected()) {
+                    switch (user.checkInData()) {
+                        case ("Вход"):
+                            System.out.println("Вход");
+                            mainFrameClient.setUser(user);
+                            mainFrameClient.setCardsUp("messages");
+                            mainFrameClient.setCardsDown("messages");
+                            break;
+                        case ("Не верный пароль"):
+                            passwordField.setText("Не верный пароль");
+                            passwordField.setForeground(Color.RED);
+                            passwordField.setEchoChar((char) 0);
+                            break;
+                        case ("Зарегистрируйтесь"):
+                            regCheckBox.setSelected(true);
+                            break;
+                    }
+                } else {
+                    if(user.checkInData().equals("Зарегистрируйтесь")) {
+                        user.setIp(ipFormatTextField.getText());
+                        if(user.checkIPInData().equals("Регистрация")) {
+                            mainFrameClient.setUser(user);
+                            mainFrameClient.setCardsUp("messages");
+                            mainFrameClient.setCardsDown("messages");
+                        } else {
+                            ipFormatTextField.setForeground(Color.RED);
+                        }
+                    } else {
+                        nameLoginField.setText("Имя и фамилия уже заняты");
+                        nameLoginField.setForeground(Color.RED);
+                        surnameLoginField.setText("");
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
         Box loginVBox = Box.createVerticalBox();
         loginVBox.add(kostylNameLoginField);
         Box vhodLabelBox = Box.createHorizontalBox();
@@ -134,13 +179,13 @@ class LoginDown {
         public void focusGained(FocusEvent e) {
             if (!password) {
                 JTextField field = (JTextField) e.getSource();
-                if (field.getText().equals(text)) {
+                if (field.getText().equals(text) || field.getText().equals("Имя и фамилия уже заняты")) {
                     field.setText("");
                     field.setForeground(Color.BLACK);
                 }
             } else {
                 JPasswordField field = (JPasswordField) e.getSource();
-                if (field.getText().equals(text)) {
+                if (field.getText().equals(text) || field.getText().equals("Не верный пароль")) {
                     field.setText("");
                     field.setForeground(Color.BLACK);
                     field.setEchoChar('●');
@@ -162,6 +207,13 @@ class LoginDown {
                     field.setEchoChar((char) 0);
                 }
             }
+        }
+    }
+
+    public static class FormatFieldFocusAdapter extends FocusAdapter {
+        public void focusGained(FocusEvent e) {
+            JFormattedTextField field = (JFormattedTextField) e.getSource();
+            field.setForeground(Color.BLACK);
         }
     }
 
