@@ -1,9 +1,11 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class ChatDown {
+class ChatDown {
 
     private JPanel chatDownPanel = new JPanel();
+    private User user = new User();
+    private String interlocutor;
 
     ChatDown() {
         chatDownPanel.setLayout(new BoxLayout(chatDownPanel, BoxLayout.X_AXIS));
@@ -43,5 +45,13 @@ public class ChatDown {
 
     JPanel getChatDownPanel() {
         return chatDownPanel;
+    }
+
+    void setUser(User user) {
+        this.user = user;
+    }
+
+    void setInterlocutor(String interlocutor) {
+        this.interlocutor = interlocutor;
     }
 }

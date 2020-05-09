@@ -1,5 +1,8 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.FocusListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 public class MessagesRenderer implements ListCellRenderer<String> {
 
@@ -34,14 +37,8 @@ public class MessagesRenderer implements ListCellRenderer<String> {
         name.setText(subStr[0]);
         messages.setText(subStr[1]);
 
-        Color fonColor;
-        if (cellHasFocus) {
-            fonColor = new Color(245,247,250);
-        } else {
-            fonColor = Color.WHITE;
-        }
-        fonPanel.setBackground(fonColor);
-
         return fonPanel;
     }
 }
+
+

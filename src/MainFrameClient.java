@@ -18,7 +18,9 @@ public class MainFrameClient extends JFrame {
     private JPanel cardsDownPanel = new JPanel(cardsDown);
     private User user = new User();
     private MenuVK menuVK = new MenuVK(user);
-    private MessagesDown messagesDown = new MessagesDown(user);
+    private MessagesDown messagesDown = new MessagesDown(user,this);
+    private ChatDown chatDown = new ChatDown();
+    private ChatUp chatUp = new ChatUp(this);
 
     private MainFrameClient(){
 
@@ -36,7 +38,6 @@ public class MainFrameClient extends JFrame {
         MessagesUp messagesUp = new MessagesUp();
         cardsUpPanel.add(messagesUp.getMessagesUpPanel(), "messages");
 
-        ChatUp chatUp = new ChatUp();
         cardsUpPanel.add(chatUp.getChatUpPanel(), "chat");
 
 //        Down
@@ -45,7 +46,6 @@ public class MainFrameClient extends JFrame {
 
         cardsDownPanel.add(messagesDown.getMessagesDownPanel(), "messages");
 
-        ChatDown chatDown = new ChatDown();
         cardsDownPanel.add(chatDown.getChatDownPanel(), "chat");
 
         setCards("login");
@@ -69,6 +69,14 @@ public class MainFrameClient extends JFrame {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    void setCardChat(String name) {
+        cardsUp.show(cardsUpPanel,"chat");
+        cardsDown.show(cardsDownPanel,"chat");
+        chatDown.setUser(user);
+        chatDown.setInterlocutor(name);
+        chatUp.setInterlocutor(name);
     }
 
     void setUser(User user) {

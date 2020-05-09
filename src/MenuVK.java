@@ -77,23 +77,26 @@ class MenuVK extends JPanel {
     JPanel getMenuPanel() {
         return menuPanel;
     }
-}
 
-class ButtonMouseListener implements MouseListener {
+    static class ButtonMouseListener implements MouseListener {
 
-    public void mouseClicked(MouseEvent e) { }
+        public void mouseClicked(MouseEvent e) { }
 
-    public void mouseEntered(MouseEvent arg0) {
-        JButton button = (JButton) arg0.getSource();
-        button.setBackground(new Color(61,104,152));
+        public void mouseEntered(MouseEvent arg0) {
+            JButton button = (JButton) arg0.getSource();
+            button.setBackground(new Color(61,104,152));
+        }
+
+        public void mouseExited(MouseEvent arg0) {
+            JButton button = (JButton) arg0.getSource();
+            button.setBackground(new Color(74,118,168));
+        }
+
+        public void mousePressed(MouseEvent e) { }
+
+        public void mouseReleased(MouseEvent e) { }
     }
 
-    public void mouseExited(MouseEvent arg0) {
-        JButton button = (JButton) arg0.getSource();
-        button.setBackground(new Color(74,118,168));
-    }
-
-    public void mousePressed(MouseEvent e) { }
-
-    public void mouseReleased(MouseEvent e) { }
 }
+
+

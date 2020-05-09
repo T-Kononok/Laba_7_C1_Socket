@@ -12,10 +12,9 @@ class MessagesDown {
     private DefaultListModel<String> messagesListModel = new DefaultListModel<>();
     private User user;
 
-    MessagesDown(User user0) {
+    MessagesDown(User user0, MainFrameClient mainFrameClient) {
 
         user = user0;
-
         JList<String> messagesList = new JList<>(messagesListModel);
         messagesList.setCellRenderer(new MessagesRenderer());
         messagesList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -30,6 +29,8 @@ class MessagesDown {
                 if (messagesList.getSelectedIndex() != -1) {
                     String val = messagesList.getSelectedValue();
                     String[] subStr = val.split("_");
+                    mainFrameClient.setCardChat(subStr[0]);
+                    System.out.println(subStr[0]);
                 }
             }
         });
@@ -46,6 +47,7 @@ class MessagesDown {
     void readChatsInData() throws FileNotFoundException {
         Scanner scanner = new Scanner(new File("D:/Джава/Laba_7_C1_Socket/messages.txt"));
         String line;
+        vectorMessages.removeAllElements();
         while(scanner.hasNextLine()){
             line = scanner.nextLine();
             if(line.contains(user.getName() + " " + user.getSurname())) {
@@ -64,6 +66,7 @@ class MessagesDown {
                             text.substring(text.lastIndexOf(line)));
             }
         }
+        messagesListModel.removeAllElements();
         vectorMessages.forEach(messagesListModel::addElement);
     }
 }

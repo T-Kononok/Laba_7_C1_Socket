@@ -1,11 +1,12 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class ChatUp {
+class ChatUp {
 
     private JPanel chatUpPanel = new JPanel();
+    private  JLabel nameChatLabel = new JLabel("Анонимус");
 
-    ChatUp() {
+    ChatUp(MainFrameClient mainFrameClient) {
         chatUpPanel.setBackground(Color.WHITE);
         chatUpPanel.setLayout(new BoxLayout(chatUpPanel, BoxLayout.X_AXIS));
         Box chatBoxH = Box.createHorizontalBox();
@@ -17,10 +18,9 @@ public class ChatUp {
                 getScaledInstance(35, 35, Image.SCALE_DEFAULT))));
         buttonBack.setBorder(BorderFactory.createEmptyBorder());
         buttonBack.setFocusPainted(false);
-//        buttonBack.addActionListener(ev ->);
+        buttonBack.addActionListener(ev -> mainFrameClient.setCards("messages"));
         buttonKostyl.setBorder(BorderFactory.createEmptyBorder());
         buttonKostyl.setFocusPainted(false);
-        JLabel nameChatLabel = new JLabel("Анонимус");
         nameChatLabel.setFont(new Font("Tahoma",Font.BOLD,12));
         chatBoxH.add(buttonBack);
         chatBoxH.add(Box.createHorizontalGlue());
@@ -32,5 +32,9 @@ public class ChatUp {
 
     JPanel getChatUpPanel() {
         return chatUpPanel;
+    }
+
+    void setInterlocutor(String interlocutor) {
+        nameChatLabel.setText(interlocutor);
     }
 }
