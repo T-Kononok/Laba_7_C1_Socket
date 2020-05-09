@@ -20,9 +20,6 @@ public class MessagesDown {
         vectorMessages.addElement("Сергей Агафонов_Сергей Агафонов");
         vectorMessages.addElement("Александр Лихварь_Александр Лихварь");
 
-
-//        sortPoint(vectorForsons);
-
         DefaultListModel<String> messagesListModel = new DefaultListModel<>();
         vectorMessages.forEach(messagesListModel::addElement);
 
@@ -32,7 +29,8 @@ public class MessagesDown {
         JScrollPane messagesListScroll = new JScrollPane(messagesList);
         messagesListScroll.setPreferredSize(new Dimension(585,450));
 
-        messagesDownPanel.add(messagesListScroll, BorderLayout.CENTER);
+        messagesDownPanel.add(messagesListScroll);
+        messagesDownPanel.setBackground(Color.WHITE);
 
         messagesList.addListSelectionListener(evt -> {
             if (!evt.getValueIsAdjusting()) {
@@ -45,7 +43,7 @@ public class MessagesDown {
         });
     }
 
-    public JPanel getMessagesDownPanel() {
+    JPanel getMessagesDownPanel() {
         return messagesDownPanel;
     }
 }

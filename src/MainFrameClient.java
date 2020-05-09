@@ -10,12 +10,12 @@ public class MainFrameClient extends JFrame {
     private static final int FRAME_WIDTH = 565;
     private static final int FRAME_HEIGHT = 565;
     private static final Color WHITEVK = new Color(237,238,240);
-    private static final Color GREYVK = new Color(153,145,146);
 
     private CardLayout cardsUp = new CardLayout();
     private CardLayout cardsDown = new CardLayout();
     private JPanel cardsUpPanel = new JPanel(cardsUp);
     private JPanel cardsDownPanel = new JPanel(cardsDown);
+    private MenuVK menuVK = new MenuVK(new User());
 
     private MainFrameClient(){
 
@@ -30,14 +30,11 @@ public class MainFrameClient extends JFrame {
         loginUpPanel.setBackground(WHITEVK);
         cardsUpPanel.add(loginUpPanel, "login");
 
-        JPanel messagesUpPanel = new JPanel();
-        cardsUpPanel.add(messagesUpPanel, "messages");
+        MessagesUp messagesUp = new MessagesUp();
+        cardsUpPanel.add(messagesUp.getMessagesUpPanel(), "messages");
 
-        JPanel searchUpPanel = new JPanel();
-        cardsUpPanel.add(searchUpPanel, "search");
-        
-        JPanel chatUpPanel = new JPanel();
-        cardsUpPanel.add(chatUpPanel, "chat");
+        ChatUp chatUp = new ChatUp();
+        cardsUpPanel.add(chatUp.getChatUpPanel(), "chat");
 
 //        Down
         LoginDown loginDown = new LoginDown();
@@ -46,20 +43,19 @@ public class MainFrameClient extends JFrame {
         MessagesDown messagesDown = new MessagesDown();
         cardsDownPanel.add(messagesDown.getMessagesDownPanel(), "messages");
 
-        JPanel chatDownPanel = new JPanel();
-        cardsDownPanel.add(chatDownPanel, "chat");
+        ChatDown chatDown = new ChatDown();
+        cardsDownPanel.add(chatDown.getChatDownPanel(), "chat");
 
-        MenuVK menuVK = new MenuVK(new User());
         menuVK.setAlogin();
         cardsUp.show(cardsUpPanel,"messages");
         cardsDown.show(cardsDownPanel,"messages");
-        getContentPane().add(menuVK.getMenuPanel(), BorderLayout.NORTH);
-        getContentPane().add(cardsUpPanel, BorderLayout.CENTER);
-        getContentPane().add(cardsDownPanel, BorderLayout.SOUTH);
+        Box contentBoxV = Box.createVerticalBox();
+        contentBoxV.add(menuVK.getMenuPanel());
+        contentBoxV.add(cardsUpPanel);
+        contentBoxV.add(cardsDownPanel);
+        getContentPane().add(contentBoxV, BorderLayout.CENTER);
 
     }
-
-
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
