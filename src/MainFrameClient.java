@@ -19,6 +19,7 @@ public class MainFrameClient extends JFrame {
     private User user = new User();
     private MenuVK menuVK = new MenuVK(user);
     private MessagesDown messagesDown = new MessagesDown(user,this);
+    private MessagesUp messagesUp = new MessagesUp(this);
     private ChatDown chatDown = new ChatDown();
     private ChatUp chatUp = new ChatUp(this);
 
@@ -35,7 +36,6 @@ public class MainFrameClient extends JFrame {
         loginUpPanel.setBackground(WHITEVK);
         cardsUpPanel.add(loginUpPanel, "login");
 
-        MessagesUp messagesUp = new MessagesUp();
         cardsUpPanel.add(messagesUp.getMessagesUpPanel(), "messages");
 
         cardsUpPanel.add(chatUp.getChatUpPanel(), "chat");
@@ -64,6 +64,7 @@ public class MainFrameClient extends JFrame {
         menuVK.setUser(user);
         menuVK.setAlogin();
         messagesDown.setUser(user);
+        messagesUp.setUser(user);
         try {
             messagesDown.readChatsInData();
         } catch (IOException e) {
