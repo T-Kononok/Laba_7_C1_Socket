@@ -2,7 +2,6 @@ import javax.swing.*;
 import javax.swing.text.MaskFormatter;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
 
@@ -11,10 +10,11 @@ class LoginDown {
     private static final Color WHITEVK = new Color(237,238,240);
     private static final Color GREYVK = new Color(153,145,146);
 
-    private User user = new User();
+    private User user;
     private Box fon = Box.createVerticalBox();
 
     LoginDown(MainFrameClient mainFrameClient){
+        user = new User(mainFrameClient);
         JPanel loginDownPanel = new JPanel();
         loginDownPanel.setBackground(Color.WHITE);
         JTextField kostylNameLoginField = new JTextField("",1);

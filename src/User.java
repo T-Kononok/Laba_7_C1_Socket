@@ -10,6 +10,11 @@ class User {
     private String surname = "Анонимов";
     private String ip = "127.000.00.01";
     private char[] password = {'1','2','3'};
+    private MainFrameClient mainFrameClient;
+
+    User(MainFrameClient mainFrameClient0){
+        mainFrameClient = mainFrameClient0;
+    }
 
     void setName(String name) {
         this.name = name;
@@ -44,8 +49,7 @@ class User {
     }
 
     String checkInData() throws FileNotFoundException {
-        File file = new File("D:/Джава/Laba_7_C1_Socket/login.txt");
-        Scanner scanner = new Scanner(file);
+        Scanner scanner = new Scanner(mainFrameClient.readFile("D:/Джава/Laba_7_C1_Socket/login.txt"));
         while(scanner.hasNextLine()){
             if(("%"+name + " " + surname).equals(scanner.nextLine().trim())) {
                 if (Arrays.equals(password, scanner.nextLine().trim().toCharArray())) {
@@ -60,17 +64,14 @@ class User {
     }
 
     String checkIPInData() throws IOException {
-        File file = new File("D:/Джава/Laba_7_C1_Socket/login.txt");
-        Scanner scanner = new Scanner(file);
+        Scanner scanner = new Scanner(mainFrameClient.readFile("D:/Джава/Laba_7_C1_Socket/login.txt"));
         while(scanner.hasNextLine()){
             if((ip).equals(scanner.nextLine().trim()))
                 return "IP занят";
         }
-        FileWriter writer = new FileWriter("D:/Джава/Laba_7_C1_Socket/login.txt", true);
-        writer.write("%"+name + " " + surname + "\n" +
-                    new String(password) + "\n" +
-                    ip + "\n\n");
-        writer.flush();
+        mainFrameClient.writeToFile("D:/Джава/Laba_7_C1_Socket/login.txt","%"+name + " " + surname + "\n" +
+                new String(password) + "\n" +
+                ip + "\n\n",true);
         return "Регистрация";
     }
 }

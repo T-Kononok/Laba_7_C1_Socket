@@ -1,7 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
@@ -53,7 +52,7 @@ class MessagesUp {
     }
 
     private void search(String name) throws IOException {
-        Scanner scanner = new Scanner(new File("D:/Джава/Laba_7_C1_Socket/messages.txt"));
+        Scanner scanner = new Scanner(mainFrameClient.readFile("D:/Джава/Laba_7_C1_Socket/messages.txt"));
         String line;
         boolean chatNew = true;
         while(scanner.hasNextLine()){
@@ -66,12 +65,10 @@ class MessagesUp {
             }
         }
         if (chatNew) {
-            FileWriter writer = new FileWriter("D:/Джава/Laba_7_C1_Socket/messages.txt", true);
-            writer.write("\n" + user.getName() + " " + user.getSurname() + "_" + name);
-            writer.flush();
-            File f = new File("D:/Джава/Laba_7_C1_Socket/" +
+            mainFrameClient.writeToFile("D:/Джава/Laba_7_C1_Socket/messages.txt",
+                    "\n" + user.getName() + " " + user.getSurname() + "_" + name, true);
+            mainFrameClient.createFile("D:/Джава/Laba_7_C1_Socket/" +
                     user.getName() + " " + user.getSurname() + "_" + name + ".txt");
-            f.createNewFile();
             mainFrameClient.setCardChat(name);
         }
 

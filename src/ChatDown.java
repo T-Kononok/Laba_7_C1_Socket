@@ -10,11 +10,13 @@ class ChatDown {
 
     private JPanel chatDownPanel = new JPanel();
     private JTextArea readChatTextArea = new JTextArea(10,0);
-    private User user = new User();
+    private User user;
     private String interlocutor;
     private String writeNameFile;
+    private MainFrameClient mainFrameClient;
 
-    ChatDown() {
+    ChatDown(MainFrameClient mainFrameClient0) {
+        mainFrameClient = mainFrameClient0;
         chatDownPanel.setLayout(new BoxLayout(chatDownPanel, BoxLayout.X_AXIS));
         chatDownPanel.setBackground(Color.WHITE);
         readChatTextArea.setEditable(false);
@@ -67,21 +69,20 @@ class ChatDown {
     }
 
     private void writeInData(JTextArea textArea) throws IOException {
-        FileWriter writer = new FileWriter(writeNameFile, true);
-        writer.write("\n\n" + user.getName() + " " + user.getSurname() + ": " + "\n\t" + textArea.getText());
-        writer.flush();
+        mainFrameClient.writeToFile(writeNameFile,
+                "\n\n" + user.getName() + " " + user.getSurname() + ": " + "\n\t" + textArea.getText(), true);
         textArea.setText("");
         readOneChatInData();
     }
 
     void readOneChatInData() throws FileNotFoundException {
-        Scanner scanner = new Scanner(new File("D:/Джава/Laba_7_C1_Socket/messages.txt"));
+        Scanner scanner = new Scanner(mainFrameClient.readFile("D:/Джава/Laba_7_C1_Socket/messages.txt"));
         String line;
         while(scanner.hasNextLine()){
             line = scanner.nextLine();
             if(line.equals(user.getName() + " " + user.getSurname() + "_" + interlocutor)) {
                 writeNameFile = "D:/Джава/Laba_7_C1_Socket/" + line + ".txt";
-                Scanner scanner1Text = new Scanner(new File(writeNameFile));
+                Scanner scanner1Text = new Scanner(mainFrameClient.readFile(writeNameFile));
                 String text = "";
                 while(scanner1Text.hasNextLine())
                     text += scanner1Text.nextLine() + "\n";
@@ -89,7 +90,7 @@ class ChatDown {
             }
             if(line.equals(interlocutor + "_" + user.getName() + " " + user.getSurname())) {
                 writeNameFile = "D:/Джава/Laba_7_C1_Socket/" + line + ".txt";
-                Scanner scanner1Text = new Scanner(new File(writeNameFile));
+                Scanner scanner1Text = new Scanner(mainFrameClient.readFile(writeNameFile));
                 String text = "";
                 while(scanner1Text.hasNextLine())
                     text += scanner1Text.nextLine() + "\n";

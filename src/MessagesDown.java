@@ -10,10 +10,11 @@ class MessagesDown {
     private JPanel messagesDownPanel = new JPanel();
     private Vector<String> vectorMessages = new Vector<>();
     private DefaultListModel<String> messagesListModel = new DefaultListModel<>();
+    private MainFrameClient mainFrameClient;
     private User user;
 
-    MessagesDown(User user0, MainFrameClient mainFrameClient) {
-
+    MessagesDown(User user0, MainFrameClient mainFrameClient0) {
+        mainFrameClient = mainFrameClient0;
         user = user0;
         JList<String> messagesList = new JList<>(messagesListModel);
         messagesList.setCellRenderer(new MessagesRenderer());
@@ -44,25 +45,27 @@ class MessagesDown {
     }
 
     void readChatsInData() throws FileNotFoundException {
-        Scanner scanner = new Scanner(new File("D:/Джава/Laba_7_C1_Socket/messages.txt"));
+        Scanner scanner = new Scanner(mainFrameClient.readFile("D:/Джава/Laba_7_C1_Socket/messages.txt"));
         String line;
         vectorMessages.removeAllElements();
         while(scanner.hasNextLine()){
             line = scanner.nextLine();
             if(line.contains(user.getName() + " " + user.getSurname())) {
-                Scanner scanner1Text = new Scanner(new File("D:/Джава/Laba_7_C1_Socket/" + line + ".txt"));
+                Scanner scanner1Text = new Scanner(mainFrameClient.readFile("D:/Джава/Laba_7_C1_Socket/" + line + ".txt"));
                 line = line.replace(user.getName() + " " + user.getSurname(),"");
                 line = line.replace("_","");
                 String text = "";
                 while(scanner1Text.hasNextLine())
                     text += scanner1Text.nextLine() + "\n";
-                if (text.lastIndexOf(user.getName() + " " + user.getSurname()) >
-                        text.lastIndexOf(line))
-                    vectorMessages.addElement(line + "_" +
-                            text.substring(text.lastIndexOf(user.getName() + " " + user.getSurname())));
-                else
-                    vectorMessages.addElement(line + "_" +
-                            text.substring(text.lastIndexOf(line)));
+                if (!text.isEmpty()) {
+                    if (text.lastIndexOf(user.getName() + " " + user.getSurname()) >
+                            text.lastIndexOf(line))
+                        vectorMessages.addElement(line + "_" +
+                                text.substring(text.lastIndexOf(user.getName() + " " + user.getSurname())));
+                    else
+                        vectorMessages.addElement(line + "_" +
+                                text.substring(text.lastIndexOf(line)));
+                }
             }
         }
         messagesListModel.removeAllElements();

@@ -1,10 +1,10 @@
 import javax.swing.*;
-import javax.swing.plaf.BorderUIResource;
-import javax.swing.text.MaskFormatter;
 import java.awt.*;
-import java.awt.event.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.text.ParseException;
+import java.util.Scanner;
 
 public class MainFrameClient extends JFrame {
 
@@ -16,11 +16,11 @@ public class MainFrameClient extends JFrame {
     private CardLayout cardsDown = new CardLayout();
     private JPanel cardsUpPanel = new JPanel(cardsUp);
     private JPanel cardsDownPanel = new JPanel(cardsDown);
-    private User user = new User();
+    private User user = new User(this);
     private MenuVK menuVK = new MenuVK(user);
     private MessagesDown messagesDown = new MessagesDown(user,this);
     private MessagesUp messagesUp = new MessagesUp(this);
-    private ChatDown chatDown = new ChatDown();
+    private ChatDown chatDown = new ChatDown(this);
     private ChatUp chatUp = new ChatUp(this);
 
     private MainFrameClient(){
@@ -89,8 +89,23 @@ public class MainFrameClient extends JFrame {
         this.user = user;
     }
 
-    User getUser() {
-        return user;
+    void createFile(String fileName) throws IOException {
+        File f = new File(fileName);
+        f.createNewFile();
+    }
+
+    void writeToFile(String fileName, String text, boolean append) throws IOException {
+        FileWriter writer = new FileWriter(fileName, append);
+        writer.write(text);
+        writer.flush();
+    }
+
+    String readFile(String fileName) throws FileNotFoundException {
+        Scanner scanner = new Scanner(new File(fileName));
+        String text = "";
+        while (scanner.hasNextLine())
+            text += scanner.nextLine() + "\n";
+        return text;
     }
 
     public static void main(String[] args) {
