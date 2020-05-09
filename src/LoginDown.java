@@ -87,8 +87,7 @@ class LoginDown {
                         case ("Вход"):
                             System.out.println("Вход");
                             mainFrameClient.setUser(user);
-                            mainFrameClient.setCardsUp("messages");
-                            mainFrameClient.setCardsDown("messages");
+                            mainFrameClient.setCards("messages");
                             break;
                         case ("Не верный пароль"):
                             passwordField.setText("Не верный пароль");
@@ -104,8 +103,7 @@ class LoginDown {
                         user.setIp(ipFormatTextField.getText());
                         if(user.checkIPInData().equals("Регистрация")) {
                             mainFrameClient.setUser(user);
-                            mainFrameClient.setCardsUp("messages");
-                            mainFrameClient.setCardsDown("messages");
+                            mainFrameClient.setCards("messages");
                         } else {
                             ipFormatTextField.setForeground(Color.RED);
                         }

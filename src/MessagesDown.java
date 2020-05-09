@@ -1,27 +1,20 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 import java.util.Vector;
 
-public class MessagesDown {
+class MessagesDown {
 
     private JPanel messagesDownPanel = new JPanel();
+    private Vector<String> vectorMessages = new Vector<>();
+    private DefaultListModel<String> messagesListModel = new DefaultListModel<>();
+    private User user;
 
-    MessagesDown() {
-        Vector<String> vectorMessages = new Vector<>();
-        vectorMessages.addElement("Сергей Кровельщиков_Посмотри Гатари");
-        vectorMessages.addElement("Росшер Бывалый_Росшер Бывалый");
-        vectorMessages.addElement("Клим Самгин_Клим Самгин");
-        vectorMessages.addElement("Дмитрий Алёхин_Дмитрий Алёхин");
-        vectorMessages.addElement("Артём Крылов_Артём Крылов");
-        vectorMessages.addElement("Юрий Ревякин_Юрий Ревякин");
-        vectorMessages.addElement("Павел Романов_Павел Романов");
-        vectorMessages.addElement("Дмитрий Шизкалев_Дмитрий Шизкалев");
-        vectorMessages.addElement("Никита Иванчиков_Никита Иванчиков");
-        vectorMessages.addElement("Сергей Агафонов_Сергей Агафонов");
-        vectorMessages.addElement("Александр Лихварь_Александр Лихварь");
+    MessagesDown(User user0) {
 
-        DefaultListModel<String> messagesListModel = new DefaultListModel<>();
-        vectorMessages.forEach(messagesListModel::addElement);
+        user = user0;
 
         JList<String> messagesList = new JList<>(messagesListModel);
         messagesList.setCellRenderer(new MessagesRenderer());
@@ -37,7 +30,6 @@ public class MessagesDown {
                 if (messagesList.getSelectedIndex() != -1) {
                     String val = messagesList.getSelectedValue();
                     String[] subStr = val.split("_");
-                    System.out.println("выбрали " + subStr[1]);
                 }
             }
         });
@@ -45,5 +37,33 @@ public class MessagesDown {
 
     JPanel getMessagesDownPanel() {
         return messagesDownPanel;
+    }
+
+    void setUser(User user) {
+        this.user = user;
+    }
+
+    void readChatsInData() throws FileNotFoundException {
+        Scanner scanner = new Scanner(new File("D:/Джава/Laba_7_C1_Socket/messages.txt"));
+        String line;
+        while(scanner.hasNextLine()){
+            line = scanner.nextLine();
+            if(line.contains(user.getName() + " " + user.getSurname())) {
+                Scanner scanner1Text = new Scanner(new File("D:/Джава/Laba_7_C1_Socket/" + line + ".txt"));
+                line = line.replace(user.getName() + " " + user.getSurname(),"");
+                line = line.replace("_","");
+                String text = "";
+                while(scanner1Text.hasNextLine())
+                    text += scanner1Text.nextLine() + "\n";
+                if (text.lastIndexOf(user.getName() + " " + user.getSurname()) >
+                        text.lastIndexOf(line))
+                    vectorMessages.addElement(line + "_" +
+                            text.substring(text.lastIndexOf(user.getName() + " " + user.getSurname())));
+                else
+                    vectorMessages.addElement(line + "_" +
+                            text.substring(text.lastIndexOf(line)));
+            }
+        }
+        vectorMessages.forEach(messagesListModel::addElement);
     }
 }

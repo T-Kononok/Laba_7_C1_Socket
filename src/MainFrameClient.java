@@ -3,6 +3,7 @@ import javax.swing.plaf.BorderUIResource;
 import javax.swing.text.MaskFormatter;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 import java.text.ParseException;
 
 public class MainFrameClient extends JFrame {
@@ -17,6 +18,7 @@ public class MainFrameClient extends JFrame {
     private JPanel cardsDownPanel = new JPanel(cardsDown);
     private User user = new User();
     private MenuVK menuVK = new MenuVK(user);
+    private MessagesDown messagesDown = new MessagesDown(user);
 
     private MainFrameClient(){
 
@@ -41,14 +43,12 @@ public class MainFrameClient extends JFrame {
         LoginDown loginDown = new LoginDown(this);
         cardsDownPanel.add(loginDown.getLoginFonBox(), "login");
 
-        MessagesDown messagesDown = new MessagesDown();
         cardsDownPanel.add(messagesDown.getMessagesDownPanel(), "messages");
 
         ChatDown chatDown = new ChatDown();
         cardsDownPanel.add(chatDown.getChatDownPanel(), "chat");
 
-        setCardsUp("login");
-        setCardsDown("login");
+        setCards("login");
         menuVK.setLogin();
         Box contentBoxV = Box.createVerticalBox();
         contentBoxV.add(menuVK.getMenuPanel());
@@ -58,14 +58,17 @@ public class MainFrameClient extends JFrame {
 
     }
 
-    void setCardsUp(String card) {
+    void setCards(String card) {
         cardsUp.show(cardsUpPanel,card);
+        cardsDown.show(cardsDownPanel,card);
         menuVK.setUser(user);
         menuVK.setAlogin();
-    }
-    void setCardsDown(String card) {
-        cardsDown.show(cardsDownPanel,card);
-        menuVK.setAlogin();
+        messagesDown.setUser(user);
+        try {
+            messagesDown.readChatsInData();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     void setUser(User user) {
