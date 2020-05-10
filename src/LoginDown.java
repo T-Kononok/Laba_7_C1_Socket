@@ -174,7 +174,8 @@ class LoginDown {
         public void focusGained(FocusEvent e) {
             if (!password) {
                 JTextField field = (JTextField) e.getSource();
-                if (field.getText().equals(text) || field.getText().equals("Имя и фамилия уже заняты")) {
+                if (field.getText().equals(text) || field.getText().equals("Имя и фамилия уже заняты") ||
+                        field.getText().equals("Пользователь не найден")) {
                     field.setText("");
                     field.setForeground(Color.BLACK);
                 }

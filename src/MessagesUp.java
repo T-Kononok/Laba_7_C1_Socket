@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -10,6 +12,7 @@ class MessagesUp {
     private JPanel messagesUpPanel = new JPanel();
     private User user;
     private MainFrameClient mainFrameClient;
+    private JTextField searchTextField = new JTextField("Поиск", 10);
 
     MessagesUp(MainFrameClient mainFrameClient0) {
         mainFrameClient = mainFrameClient0;
@@ -19,7 +22,6 @@ class MessagesUp {
                 getScaledInstance(35, 35, Image.SCALE_DEFAULT))));
         buttonSearch.setBorder(BorderFactory.createEmptyBorder());
         buttonSearch.setFocusPainted(false);
-        JTextField searchTextField = new JTextField("Поиск", 10);
         searchTextField.setFont(new Font("Tahoma",Font.PLAIN,12));
         searchTextField.setForeground(new Color(153,145,146));
         searchTextField.setBorder(BorderFactory.createEmptyBorder());
@@ -30,7 +32,6 @@ class MessagesUp {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                searchTextField.setText("");
             }
         );
         buttonSearch.addActionListener(ev -> {
@@ -39,7 +40,6 @@ class MessagesUp {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                searchTextField.setText("");
             }
         );
         messagesBoxH.add(buttonSearch);
@@ -60,16 +60,30 @@ class MessagesUp {
             if(line.equals(user.getName() + " " + user.getSurname() + "_" + name) ||
                     line.equals(name + "_" + user.getName() + " " + user.getSurname())) {
                 mainFrameClient.setCardChat(name);
+                searchTextField.setText("");
                 chatNew = false;
                 break;
             }
         }
         if (chatNew) {
-            mainFrameClient.writeToFile("D:/Джава/Laba_7_C1_Socket/messages.txt",
-                    "\n" + user.getName() + " " + user.getSurname() + "_" + name, true);
-            mainFrameClient.createFile("D:/Джава/Laba_7_C1_Socket/" +
-                    user.getName() + " " + user.getSurname() + "_" + name + ".txt");
-            mainFrameClient.setCardChat(name);
+            System.out.println("+");
+            Scanner scanner2 = new Scanner(mainFrameClient.readFile("D:/Джава/Laba_7_C1_Socket/login.txt"));
+            boolean nameInLogin = false;
+            while(scanner2.hasNextLine()){
+                String line2 = scanner2.nextLine();
+                if(line2.equals("%"+name)) {
+                    mainFrameClient.writeToFile("D:/Джава/Laba_7_C1_Socket/messages.txt",
+                            "\n" + user.getName() + " " + user.getSurname() + "_" + name, true);
+                    mainFrameClient.createFile("D:/Джава/Laba_7_C1_Socket/" +
+                            user.getName() + " " + user.getSurname() + "_" + name + ".txt");
+                    mainFrameClient.setCardChat(name);
+                    searchTextField.setText("");
+                    nameInLogin = true;
+                    break;
+                }
+            }
+            if (!nameInLogin)
+                searchTextField.setText("Пользователь не найден");
         }
 
     }
