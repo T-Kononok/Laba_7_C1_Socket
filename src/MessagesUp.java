@@ -62,7 +62,6 @@ class MessagesUp {
             }
         }
         if (chatNew) {
-            System.out.println("+");
             Scanner scanner2 = new Scanner(mainFrameClient.readFile("D:/Джава/Laba_7_C1_Socket/login.txt"));
             boolean nameInLogin = false;
             while(scanner2.hasNextLine()){

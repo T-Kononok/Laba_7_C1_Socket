@@ -24,22 +24,20 @@ public class MonoThreadClientHandler implements Runnable {
                                 clientDialog.getOutputStream())), true);
                 while (true) {
                     String str = in.readLine();
-                    System.out.println("введено " + str);
+                    System.out.println("MonoServer->in.readLine->" + str);
                     String[] subStr = str.split("//");
                     switch (subStr[0]) {
                         case ("createFile"):
                             server.createFile(subStr[1]);
-                            out.println("#");
-                            System.out.println("+");
+                            out.flush();
                             break;
                         case ("writeToFile"):
                             server.writeToFile(subStr[1], subStr[2]);
-                            out.println("#");
-                            System.out.println("+");
+                            out.flush();
                             break;
                         case ("readFile"):
                             out.println(server.readFile(subStr[1]));
-                            System.out.println("+");
+                            out.flush();
                             break;
                     }
                 }

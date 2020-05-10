@@ -89,15 +89,21 @@ public class MainFrameClient extends JFrame {
 
     void createFile(String fileName) {
         out.println("createFile//"+fileName);
+        out.flush();
     }
 
     void writeToFile(String fileName, String text) {
+        System.out.println("MainFrameClient->writeToFile->" + fileName + " " + text);
+        text = text.replace('\n','$');
+        System.out.print("MainFrameClient->out.println->writeToFile//"+fileName+"//"+text+"->");
         out.println("writeToFile//"+fileName+"//"+text);
+        out.flush();
+        System.out.println("ok");
     }
 
     synchronized String readFile(String fileName) throws InterruptedException, IOException {
         out.println("readFile//"+fileName);
-//        Thread.sleep(20);
+        out.flush();
         String text;
         text = in.readLine();
         text = text.replace('$','\n');

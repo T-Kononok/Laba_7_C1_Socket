@@ -48,6 +48,7 @@ class User {
 
     String checkInData() throws InterruptedException, IOException {
         Scanner scanner = new Scanner(mainFrameClient.readFile("D:/Джава/Laba_7_C1_Socket/login.txt"));
+        System.out.println("+");
         while(scanner.hasNextLine()){
             if(("%"+name + " " + surname).equals(scanner.nextLine().trim())) {
                 if (Arrays.equals(password, scanner.nextLine().trim().toCharArray())) {

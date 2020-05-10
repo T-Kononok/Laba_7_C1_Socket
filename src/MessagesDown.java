@@ -44,18 +44,25 @@ class MessagesDown {
     }
 
     void readChatsInData() throws InterruptedException, IOException {
+        System.out.print("MessagesDown->scanner->"+mainFrameClient.readFile("D:/Джава/Laba_7_C1_Socket/messages.txt")+"->");
         Scanner scanner = new Scanner(mainFrameClient.readFile("D:/Джава/Laba_7_C1_Socket/messages.txt"));
+        System.out.println("ok");
         String line;
         vectorMessages.removeAllElements();
         while(scanner.hasNextLine()){
             line = scanner.nextLine();
+            System.out.println("MessagesDown->line->"+line);
             if(line.contains(user.getName() + " " + user.getSurname())) {
+                System.out.print("MessagesDown->scanner1Text->"+mainFrameClient.readFile("D:/Джава/Laba_7_C1_Socket/" + line + ".txt")+"->");
                 Scanner scanner1Text = new Scanner(mainFrameClient.readFile("D:/Джава/Laba_7_C1_Socket/" + line + ".txt"));
+                System.out.println("ok");
                 line = line.replace(user.getName() + " " + user.getSurname(),"");
                 line = line.replace("_","");
+                System.out.println("MessagesDown->line->"+line);
                 StringBuilder text = new StringBuilder();
                 while(scanner1Text.hasNextLine())
                     text.append(scanner1Text.nextLine()).append("\n");
+                System.out.println("MessagesDown->text->"+text);
                 if (text.length() > 0) {
                     if (text.lastIndexOf(user.getName() + " " + user.getSurname()) >
                             text.lastIndexOf(line))
