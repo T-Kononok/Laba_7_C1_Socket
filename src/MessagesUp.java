@@ -1,9 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -73,7 +69,7 @@ class MessagesUp {
                 String line2 = scanner2.nextLine();
                 if(line2.equals("%"+name)) {
                     mainFrameClient.writeToFile("D:/Джава/Laba_7_C1_Socket/messages.txt",
-                            "\n" + user.getName() + " " + user.getSurname() + "_" + name, true);
+                            "\n" + user.getName() + " " + user.getSurname() + "_" + name);
                     mainFrameClient.createFile("D:/Джава/Laba_7_C1_Socket/" +
                             user.getName() + " " + user.getSurname() + "_" + name + ".txt");
                     mainFrameClient.setCardChat(name);

@@ -91,21 +91,22 @@ public class MainFrameClient extends JFrame {
 
     void createFile(String fileName) throws IOException {
         File f = new File(fileName);
-        f.createNewFile();
+        if(!f.createNewFile())
+            System.out.println("Не удалось создать файл");
     }
 
-    void writeToFile(String fileName, String text, boolean append) throws IOException {
-        FileWriter writer = new FileWriter(fileName, append);
+    void writeToFile(String fileName, String text) throws IOException {
+        FileWriter writer = new FileWriter(fileName, true);
         writer.write(text);
         writer.flush();
     }
 
     String readFile(String fileName) throws FileNotFoundException {
         Scanner scanner = new Scanner(new File(fileName));
-        String text = "";
+        StringBuilder text = new StringBuilder();
         while (scanner.hasNextLine())
-            text += scanner.nextLine() + "\n";
-        return text;
+            text.append(scanner.nextLine()).append("\n");
+        return text.toString();
     }
 
     public static void main(String[] args) {

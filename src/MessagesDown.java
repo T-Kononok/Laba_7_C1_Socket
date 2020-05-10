@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.Vector;
@@ -54,10 +53,10 @@ class MessagesDown {
                 Scanner scanner1Text = new Scanner(mainFrameClient.readFile("D:/Джава/Laba_7_C1_Socket/" + line + ".txt"));
                 line = line.replace(user.getName() + " " + user.getSurname(),"");
                 line = line.replace("_","");
-                String text = "";
+                StringBuilder text = new StringBuilder();
                 while(scanner1Text.hasNextLine())
-                    text += scanner1Text.nextLine() + "\n";
-                if (!text.isEmpty()) {
+                    text.append(scanner1Text.nextLine()).append("\n");
+                if (text.length() > 0) {
                     if (text.lastIndexOf(user.getName() + " " + user.getSurname()) >
                             text.lastIndexOf(line))
                         vectorMessages.addElement(line + "_" +

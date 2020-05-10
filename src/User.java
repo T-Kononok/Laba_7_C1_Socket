@@ -1,6 +1,4 @@
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -71,7 +69,7 @@ class User {
         }
         mainFrameClient.writeToFile("D:/Джава/Laba_7_C1_Socket/login.txt","%"+name + " " + surname + "\n" +
                 new String(password) + "\n" +
-                ip + "\n\n",true);
+                ip + "\n\n");
         return "Регистрация";
     }
 }

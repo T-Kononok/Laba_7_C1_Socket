@@ -1,8 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -70,7 +68,7 @@ class ChatDown {
 
     private void writeInData(JTextArea textArea) throws IOException {
         mainFrameClient.writeToFile(writeNameFile,
-                "\n\n" + user.getName() + " " + user.getSurname() + ": " + "\n\t" + textArea.getText(), true);
+                "\n\n" + user.getName() + " " + user.getSurname() + ": " + "\n\t" + textArea.getText());
         textArea.setText("");
         readOneChatInData();
     }
@@ -83,18 +81,18 @@ class ChatDown {
             if(line.equals(user.getName() + " " + user.getSurname() + "_" + interlocutor)) {
                 writeNameFile = "D:/Джава/Laba_7_C1_Socket/" + line + ".txt";
                 Scanner scanner1Text = new Scanner(mainFrameClient.readFile(writeNameFile));
-                String text = "";
+                StringBuilder text = new StringBuilder();
                 while(scanner1Text.hasNextLine())
-                    text += scanner1Text.nextLine() + "\n";
-                readChatTextArea.setText(text);
+                    text.append(scanner1Text.nextLine()).append("\n");
+                readChatTextArea.setText(text.toString());
             }
             if(line.equals(interlocutor + "_" + user.getName() + " " + user.getSurname())) {
                 writeNameFile = "D:/Джава/Laba_7_C1_Socket/" + line + ".txt";
                 Scanner scanner1Text = new Scanner(mainFrameClient.readFile(writeNameFile));
-                String text = "";
+                StringBuilder text = new StringBuilder();
                 while(scanner1Text.hasNextLine())
-                    text += scanner1Text.nextLine() + "\n";
-                readChatTextArea.setText(text);
+                    text.append(scanner1Text.nextLine()).append("\n");
+                readChatTextArea.setText(text.toString());
             }
         }
     }
