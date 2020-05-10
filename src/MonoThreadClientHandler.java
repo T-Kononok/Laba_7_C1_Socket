@@ -1,5 +1,6 @@
 import java.io.*;
 import java.net.Socket;
+import java.util.Scanner;
 
 public class MonoThreadClientHandler implements Runnable {
 
@@ -24,12 +25,20 @@ public class MonoThreadClientHandler implements Runnable {
                 while (true) {
                     String str = in.readLine();
                     System.out.println("введено " + str);
-                    if (str.equals("read")) {
-                        System.out.println("getMes " + str);
-                    }
-                    else {
-                        out.println("#");
-                        System.out.println("setMes " + str);
+                    String[] subStr = str.split("//");
+                    switch (subStr[0]) {
+                        case ("createFile"):
+                            server.createFile(subStr[1]);
+                            System.out.println("+");
+                            break;
+                        case ("writeToFile"):
+                            server.writeToFile(subStr[1], subStr[2]);
+                            System.out.println("+");
+                            break;
+                        case ("readFile"):
+                            out.print(server.readFile(subStr[1]));
+                            System.out.println("+");
+                            break;
                     }
                 }
             } catch (IOException e) {
@@ -43,4 +52,5 @@ public class MonoThreadClientHandler implements Runnable {
             }
         }
     }
+
 }

@@ -23,20 +23,20 @@ class MessagesUp {
         searchTextField.setBorder(BorderFactory.createEmptyBorder());
         searchTextField.addFocusListener(new LoginDown.TextFieldFocusAdapter("Поиск",false));
         searchTextField.addActionListener(ev -> {
-                try {
-                    search(searchTextField.getText());
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    try {
+                        search(searchTextField.getText());
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
         );
         buttonSearch.addActionListener(ev -> {
-                try {
-                    search(searchTextField.getText());
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    try {
+                        search(searchTextField.getText());
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
         );
         messagesBoxH.add(buttonSearch);
         messagesBoxH.add(searchTextField);
@@ -47,7 +47,7 @@ class MessagesUp {
         this.user = user;
     }
 
-    private void search(String name) throws IOException {
+    private void search(String name) throws InterruptedException {
         Scanner scanner = new Scanner(mainFrameClient.readFile("D:/Джава/Laba_7_C1_Socket/messages.txt"));
         String line;
         boolean chatNew = true;

@@ -76,11 +76,12 @@ class LoginDown {
         vhodButton.setRolloverIcon(new ImageIcon(new ImageIcon("D:/Джава/Laba_7_C1_Socket/buttonImSelect.png").getImage().
                 getScaledInstance(110, 40, Image.SCALE_DEFAULT)));
         vhodButton.addActionListener( actionEvent -> {
-            user.setName(nameLoginField.getText());
-            user.setSurname(surnameLoginField.getText());
-            user.setPassword(passwordField.getPassword());
             try {
+                user.setName(nameLoginField.getText());
+                user.setSurname(surnameLoginField.getText());
+                user.setPassword(passwordField.getPassword());
                 if (!regCheckBox.isSelected()) {
+                    System.out.println("1");
                     switch (user.checkInData()) {
                         case ("Вход"):
                             mainFrameClient.setUser(user);
@@ -110,7 +111,7 @@ class LoginDown {
                         surnameLoginField.setText("");
                     }
                 }
-            } catch (IOException e) {
+            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         });

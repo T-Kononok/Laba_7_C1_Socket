@@ -1,9 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.net.Socket;
 import java.util.Scanner;
 
 public class MainFrameClient extends JFrame {
@@ -11,6 +9,8 @@ public class MainFrameClient extends JFrame {
     private static final int FRAME_WIDTH = 565;
     private static final int FRAME_HEIGHT = 565;
     private static final Color WHITEVK = new Color(237,238,240);
+    private static BufferedReader in;
+    private static PrintWriter out;
 
     private CardLayout cardsUp = new CardLayout();
     private CardLayout cardsDown = new CardLayout();
@@ -23,7 +23,8 @@ public class MainFrameClient extends JFrame {
     private ChatDown chatDown = new ChatDown(this);
     private ChatUp chatUp = new ChatUp(this);
 
-    private MainFrameClient(){
+
+    private MainFrameClient() throws InterruptedException {
 
         setResizable(false);
         setSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
@@ -58,18 +59,15 @@ public class MainFrameClient extends JFrame {
 
     }
 
-    void setCards(String card) {
+    void setCards(String card) throws InterruptedException {
         cardsUp.show(cardsUpPanel,card);
         cardsDown.show(cardsDownPanel,card);
         menuVK.setUser(user);
         menuVK.setAlogin();
         messagesDown.setUser(user);
         messagesUp.setUser(user);
-        try {
+        if (card.equals("messages"))
             messagesDown.readChatsInData();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     void setCardChat(String name) {
@@ -80,7 +78,7 @@ public class MainFrameClient extends JFrame {
         chatUp.setInterlocutor(name);
         try {
             chatDown.readOneChatInData();
-        } catch (IOException e) {
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
@@ -89,31 +87,55 @@ public class MainFrameClient extends JFrame {
         this.user = user;
     }
 
-    void createFile(String fileName) throws IOException {
-        File f = new File(fileName);
-        if(!f.createNewFile())
-            System.out.println("Не удалось создать файл");
+    void createFile(String fileName) {
+        getOut().println("createFile//"+fileName);
     }
 
-    void writeToFile(String fileName, String text) throws IOException {
-        FileWriter writer = new FileWriter(fileName, true);
-        writer.write(text);
-        writer.flush();
+    void writeToFile(String fileName, String text) {
+        getOut().println("writeToFile//"+fileName+"//"+text);
     }
 
-    String readFile(String fileName) throws FileNotFoundException {
-        Scanner scanner = new Scanner(new File(fileName));
+    String readFile(String fileName) throws InterruptedException {
+        getOut().println("readFile//"+fileName);
+        Thread.sleep(20);
+        Scanner scanner = new Scanner(getIn());
         StringBuilder text = new StringBuilder();
         while (scanner.hasNextLine())
             text.append(scanner.nextLine()).append("\n");
         return text.toString();
     }
 
+    private static BufferedReader getIn() {
+        return in;
+    }
+
+    private static PrintWriter getOut() {
+        return out;
+    }
+
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            final MainFrameClient frame = new MainFrameClient();
+    SwingUtilities.invokeLater(() -> {
+
+        final MainFrameClient frame;
+        try {
+            frame = new MainFrameClient();
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setVisible(true);
-        });
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+    try {
+        Socket socket = new Socket("127.0.0.1", 3345);
+        in = new BufferedReader(
+                new InputStreamReader(
+                        socket.getInputStream()));
+        out = new PrintWriter(new BufferedWriter(
+                new OutputStreamWriter(
+                        socket.getOutputStream())), true);
+    } catch (IOException e) {
+        e.printStackTrace();
     }
+    });
+}
 }

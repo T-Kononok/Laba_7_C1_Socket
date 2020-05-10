@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.Vector;
 
@@ -43,7 +42,7 @@ class MessagesDown {
         this.user = user;
     }
 
-    void readChatsInData() throws FileNotFoundException {
+    void readChatsInData() throws InterruptedException {
         Scanner scanner = new Scanner(mainFrameClient.readFile("D:/Джава/Laba_7_C1_Socket/messages.txt"));
         String line;
         vectorMessages.removeAllElements();

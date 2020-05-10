@@ -18,7 +18,13 @@ class ChatUp {
                 getScaledInstance(35, 35, Image.SCALE_DEFAULT))));
         buttonBack.setBorder(BorderFactory.createEmptyBorder());
         buttonBack.setFocusPainted(false);
-        buttonBack.addActionListener(ev -> mainFrameClient.setCards("messages"));
+        buttonBack.addActionListener(ev -> {
+            try {
+                mainFrameClient.setCards("messages");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
         buttonKostyl.setBorder(BorderFactory.createEmptyBorder());
         buttonKostyl.setFocusPainted(false);
         nameChatLabel.setFont(new Font("Tahoma",Font.BOLD,12));
