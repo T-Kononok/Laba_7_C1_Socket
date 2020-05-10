@@ -25,7 +25,7 @@ class MessagesUp {
         searchTextField.addActionListener(ev -> {
                     try {
                         search(searchTextField.getText());
-                    } catch (InterruptedException e) {
+                    } catch (InterruptedException | IOException e) {
                         e.printStackTrace();
                     }
                 }
@@ -33,7 +33,7 @@ class MessagesUp {
         buttonSearch.addActionListener(ev -> {
                     try {
                         search(searchTextField.getText());
-                    } catch (InterruptedException e) {
+                    } catch (InterruptedException | IOException e) {
                         e.printStackTrace();
                     }
                 }
@@ -47,7 +47,7 @@ class MessagesUp {
         this.user = user;
     }
 
-    private void search(String name) throws InterruptedException {
+    private void search(String name) throws InterruptedException, IOException {
         Scanner scanner = new Scanner(mainFrameClient.readFile("D:/Джава/Laba_7_C1_Socket/messages.txt"));
         String line;
         boolean chatNew = true;

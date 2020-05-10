@@ -24,7 +24,7 @@ public class MainFrameClient extends JFrame {
     private ChatUp chatUp = new ChatUp(this);
 
 
-    private MainFrameClient() throws InterruptedException {
+    private MainFrameClient() throws InterruptedException, IOException {
 
         setResizable(false);
         setSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
@@ -59,7 +59,7 @@ public class MainFrameClient extends JFrame {
 
     }
 
-    void setCards(String card) throws InterruptedException {
+    void setCards(String card) throws InterruptedException, IOException {
         cardsUp.show(cardsUpPanel,card);
         cardsDown.show(cardsDownPanel,card);
         menuVK.setUser(user);
@@ -78,7 +78,7 @@ public class MainFrameClient extends JFrame {
         chatUp.setInterlocutor(name);
         try {
             chatDown.readOneChatInData();
-        } catch (InterruptedException e) {
+        } catch (InterruptedException | IOException e) {
             e.printStackTrace();
         }
     }
@@ -88,29 +88,20 @@ public class MainFrameClient extends JFrame {
     }
 
     void createFile(String fileName) {
-        getOut().println("createFile//"+fileName);
+        out.println("createFile//"+fileName);
     }
 
     void writeToFile(String fileName, String text) {
-        getOut().println("writeToFile//"+fileName+"//"+text);
+        out.println("writeToFile//"+fileName+"//"+text);
     }
 
-    String readFile(String fileName) throws InterruptedException {
-        getOut().println("readFile//"+fileName);
-        Thread.sleep(20);
-        Scanner scanner = new Scanner(getIn());
-        StringBuilder text = new StringBuilder();
-        while (scanner.hasNextLine())
-            text.append(scanner.nextLine()).append("\n");
-        return text.toString();
-    }
-
-    private static BufferedReader getIn() {
-        return in;
-    }
-
-    private static PrintWriter getOut() {
-        return out;
+    synchronized String readFile(String fileName) throws InterruptedException, IOException {
+        out.println("readFile//"+fileName);
+//        Thread.sleep(20);
+        String text;
+        text = in.readLine();
+        text = text.replace('$','\n');
+        return text;
     }
 
     public static void main(String[] args) {
@@ -121,7 +112,7 @@ public class MainFrameClient extends JFrame {
             frame = new MainFrameClient();
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setVisible(true);
-        } catch (InterruptedException e) {
+        } catch (InterruptedException | IOException e) {
             e.printStackTrace();
         }
 

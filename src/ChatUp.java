@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 class ChatUp {
 
@@ -21,7 +22,7 @@ class ChatUp {
         buttonBack.addActionListener(ev -> {
             try {
                 mainFrameClient.setCards("messages");
-            } catch (InterruptedException e) {
+            } catch (InterruptedException | IOException e) {
                 e.printStackTrace();
             }
         });

@@ -46,7 +46,7 @@ class User {
         return password;
     }
 
-    String checkInData() throws InterruptedException {
+    String checkInData() throws InterruptedException, IOException {
         Scanner scanner = new Scanner(mainFrameClient.readFile("D:/Джава/Laba_7_C1_Socket/login.txt"));
         while(scanner.hasNextLine()){
             if(("%"+name + " " + surname).equals(scanner.nextLine().trim())) {
@@ -61,7 +61,7 @@ class User {
         return "Зарегистрируйтесь";
     }
 
-    String checkIPInData() throws InterruptedException {
+    String checkIPInData() throws InterruptedException, IOException {
         Scanner scanner = new Scanner(mainFrameClient.readFile("D:/Джава/Laba_7_C1_Socket/login.txt"));
         while(scanner.hasNextLine()){
             if((ip).equals(scanner.nextLine().trim()))

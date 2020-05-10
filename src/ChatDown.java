@@ -36,7 +36,7 @@ class ChatDown {
         buttonSend.addActionListener(ev -> {
             try {
                 writeInData(sendChatTextArea);
-            } catch (InterruptedException e) {
+            } catch (InterruptedException | IOException e) {
                 e.printStackTrace();
             }
         });
@@ -66,14 +66,14 @@ class ChatDown {
         this.interlocutor = interlocutor;
     }
 
-    private void writeInData(JTextArea textArea) throws InterruptedException {
+    private void writeInData(JTextArea textArea) throws InterruptedException, IOException {
         mainFrameClient.writeToFile(writeNameFile,
                 "\n\n" + user.getName() + " " + user.getSurname() + ": " + "\n\t" + textArea.getText());
         textArea.setText("");
         readOneChatInData();
     }
 
-    void readOneChatInData() throws InterruptedException {
+    void readOneChatInData() throws InterruptedException, IOException {
         Scanner scanner = new Scanner(mainFrameClient.readFile("D:/Джава/Laba_7_C1_Socket/messages.txt"));
         String line;
         while(scanner.hasNextLine()){

@@ -81,7 +81,6 @@ class LoginDown {
                 user.setSurname(surnameLoginField.getText());
                 user.setPassword(passwordField.getPassword());
                 if (!regCheckBox.isSelected()) {
-                    System.out.println("1");
                     switch (user.checkInData()) {
                         case ("Вход"):
                             mainFrameClient.setUser(user);
@@ -111,7 +110,7 @@ class LoginDown {
                         surnameLoginField.setText("");
                     }
                 }
-            } catch (InterruptedException e) {
+            } catch (InterruptedException | IOException e) {
                 e.printStackTrace();
             }
         });

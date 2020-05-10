@@ -29,14 +29,16 @@ public class MonoThreadClientHandler implements Runnable {
                     switch (subStr[0]) {
                         case ("createFile"):
                             server.createFile(subStr[1]);
+                            out.println("#");
                             System.out.println("+");
                             break;
                         case ("writeToFile"):
                             server.writeToFile(subStr[1], subStr[2]);
+                            out.println("#");
                             System.out.println("+");
                             break;
                         case ("readFile"):
-                            out.print(server.readFile(subStr[1]));
+                            out.println(server.readFile(subStr[1]));
                             System.out.println("+");
                             break;
                     }

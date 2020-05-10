@@ -46,7 +46,8 @@ public class MultiThreadServer {
         Scanner scanner = new Scanner(new File(fileName));
         StringBuilder text = new StringBuilder();
         while (scanner.hasNextLine())
-            text.append(scanner.nextLine()).append("\n");
+            text.append(scanner.nextLine()).append("$");
+        System.out.print("отправляем " + text.toString());
         return text.toString();
     }
 

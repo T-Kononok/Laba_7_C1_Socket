@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.util.Scanner;
 import java.util.Vector;
 
@@ -42,7 +43,7 @@ class MessagesDown {
         this.user = user;
     }
 
-    void readChatsInData() throws InterruptedException {
+    void readChatsInData() throws InterruptedException, IOException {
         Scanner scanner = new Scanner(mainFrameClient.readFile("D:/Джава/Laba_7_C1_Socket/messages.txt"));
         String line;
         vectorMessages.removeAllElements();
