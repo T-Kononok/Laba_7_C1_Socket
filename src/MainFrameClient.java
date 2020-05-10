@@ -93,15 +93,15 @@ public class MainFrameClient extends JFrame {
     }
 
     void writeToFile(String fileName, String text) {
-        System.out.println("MainFrameClient->writeToFile->" + fileName + " " + text);
+//        System.out.println("MainFrameClient->writeToFile->" + fileName + " " + text);
         text = text.replace('\n','$');
-        System.out.print("MainFrameClient->out.println->writeToFile//"+fileName+"//"+text+"->");
+//        System.out.print("MainFrameClient->out.println->writeToFile//"+fileName+"//"+text+"->");
         out.println("writeToFile//"+fileName+"//"+text);
         out.flush();
-        System.out.println("ok");
+//        System.out.println("ok");
     }
 
-    synchronized String readFile(String fileName) throws InterruptedException, IOException {
+    synchronized String readFile(String fileName) throws IOException {
         out.println("readFile//"+fileName);
         out.flush();
         String text;
@@ -111,28 +111,28 @@ public class MainFrameClient extends JFrame {
     }
 
     public static void main(String[] args) {
-    SwingUtilities.invokeLater(() -> {
+        SwingUtilities.invokeLater(() -> {
 
-        final MainFrameClient frame;
-        try {
-            frame = new MainFrameClient();
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setVisible(true);
-        } catch (InterruptedException | IOException e) {
-            e.printStackTrace();
-        }
+            final MainFrameClient frame;
+            try {
+                frame = new MainFrameClient();
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.setVisible(true);
+            } catch (InterruptedException | IOException e) {
+                e.printStackTrace();
+            }
 
-    try {
-        Socket socket = new Socket("127.0.0.1", 3345);
-        in = new BufferedReader(
-                new InputStreamReader(
-                        socket.getInputStream()));
-        out = new PrintWriter(new BufferedWriter(
-                new OutputStreamWriter(
-                        socket.getOutputStream())), true);
-    } catch (IOException e) {
-        e.printStackTrace();
+            try {
+                Socket socket = new Socket("127.0.0.1", 3345);
+                in = new BufferedReader(
+                        new InputStreamReader(
+                                socket.getInputStream()));
+                out = new PrintWriter(new BufferedWriter(
+                        new OutputStreamWriter(
+                                socket.getOutputStream())), true);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
-    });
-}
 }

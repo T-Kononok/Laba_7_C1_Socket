@@ -12,8 +12,9 @@ class ChatDown {
     private String interlocutor;
     private String writeNameFile;
     private MainFrameClient mainFrameClient;
+    private boolean read = true;
 
-    ChatDown(MainFrameClient mainFrameClient0) {
+    ChatDown(MainFrameClient mainFrameClient0) throws IOException, InterruptedException {
         mainFrameClient = mainFrameClient0;
         chatDownPanel.setLayout(new BoxLayout(chatDownPanel, BoxLayout.X_AXIS));
         chatDownPanel.setBackground(Color.WHITE);
@@ -34,11 +35,13 @@ class ChatDown {
         buttonSend.setBorder(BorderFactory.createEmptyBorder());
         buttonSend.setFocusPainted(false);
         buttonSend.addActionListener(ev -> {
+            read = true;
             try {
                 writeInData(sendChatTextArea);
             } catch (InterruptedException | IOException e) {
                 e.printStackTrace();
             }
+            read = false;
         });
         Box sendBoxH = Box.createHorizontalBox();
         sendBoxH.add(Box.createHorizontalStrut(20));
@@ -52,6 +55,18 @@ class ChatDown {
         chatDownBoxV.add(sendBoxH);
         chatDownBoxV.add(new JLabel(new ImageIcon("D:/Джава/Laba_7_C1_Socket/kostyl6.png")));
         chatDownPanel.add(chatDownBoxV);
+
+        Timer repaintTimer = new Timer(1000, ev -> {
+            if (!read) {
+                try {
+                    readOneChatInData();
+                } catch (IOException | InterruptedException e) {
+                    e.printStackTrace();
+                }
+//                System.out.println("повторяю");
+            }
+        });
+        repaintTimer.start();
     }
 
     JPanel getChatDownPanel() {
@@ -67,34 +82,35 @@ class ChatDown {
     }
 
     private void writeInData(JTextArea textArea) throws InterruptedException, IOException {
-        System.out.println("ChatDown->writeInData->\n\n" + user.getName() + " " + user.getSurname() + ": " + "\n\t" + textArea.getText());
+//        System.out.println("ChatDown->writeInData->\n\n" + user.getName() + " " + user.getSurname() + ": " + "\n\t" + textArea.getText());
         mainFrameClient.writeToFile(writeNameFile,
                 "\n\n" + user.getName() + " " + user.getSurname() + ": " + "\n\t" + textArea.getText());
         textArea.setText("");
-        System.out.println("ChatDown->readOneChatInData->");
+//        System.out.println("ChatDown->readOneChatInData->");
         readOneChatInData();
     }
 
     void readOneChatInData() throws InterruptedException, IOException {
-        //////////////
-        System.out.println("ChatDown->readOneChatInData->scanner->"+mainFrameClient.readFile("D:/Джава/Laba_7_C1_Socket/messages.txt"));
+        read = true;
+//        System.out.println("ChatDown->readOneChatInData->scanner->"+mainFrameClient.readFile("D:/Джава/Laba_7_C1_Socket/messages.txt"));
         Scanner scanner = new Scanner(mainFrameClient.readFile("D:/Джава/Laba_7_C1_Socket/messages.txt"));
         String line;
         while(scanner.hasNextLine()){
             line = scanner.nextLine();
-            System.out.println("ChatDown->readOneChatInData->line->"+line);
+//            System.out.println("ChatDown->readOneChatInData->line->"+line);
             if(line.equals(user.getName() + " " + user.getSurname() + "_" + interlocutor)) {
                 writeNameFile = "D:/Джава/Laba_7_C1_Socket/" + line + ".txt";
                 String text = mainFrameClient.readFile(writeNameFile);
-                System.out.println("ChatDown->readOneChatInData->setText->"+text+"->end");
+//                System.out.println("ChatDown->readOneChatInData->setText->"+text+"->end");
                 readChatTextArea.setText(text);
             }
             if(line.equals(interlocutor + "_" + user.getName() + " " + user.getSurname())) {
                 writeNameFile = "D:/Джава/Laba_7_C1_Socket/" + line + ".txt";
                 String text = mainFrameClient.readFile(writeNameFile);
-                System.out.println("ChatDown->readOneChatInData->setText->"+text+"->end");
+//                System.out.println("ChatDown->readOneChatInData->setText->"+text+"->end");
                 readChatTextArea.setText(text);
             }
         }
+        read = false;
     }
 }
